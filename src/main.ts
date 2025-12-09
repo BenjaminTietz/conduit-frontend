@@ -1,12 +1,19 @@
-import { enableProdMode } from "@angular/core";
+import { enableProdMode, APP_INITIALIZER } from "@angular/core";
 import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
 import { AppModule } from "./app/app.module";
 import { ConfigService } from "./app/core/services/config.service";
 
-const configService = new ConfigService();
+export function initConfig(config: ConfigService) {
+  return () => config.loadConfig();
+}
 
-configService.loadConfig().then(() => {
-  platformBrowserDynamic([{ provide: ConfigService, useValue: configService }])
-    .bootstrapModule(AppModule)
-    .catch((err) => console.error(err));
-});
+platformBrowserDynamic([
+  {
+    provide: APP_INITIALIZER,
+    useFactory: initConfig,
+    deps: [ConfigService],
+    multi: true,
+  },
+])
+  .bootstrapModule(AppModule)
+  .catch((err) => console.error(err));
