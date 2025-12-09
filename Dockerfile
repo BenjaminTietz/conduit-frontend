@@ -1,13 +1,19 @@
-# Build Stage
-FROM node:20-alpine as builder
+FROM node:18-alpine AS build
 
 WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
 COPY . .
-RUN npm install && npm run build --prod
+RUN npm run build --prod
 
-# Production Stage
-FROM nginx:alpine
+FROM nginx:stable-alpine
 
-COPY --from=builder /app/dist/angular-conduit /usr/share/nginx/html
+RUN rm -rf /usr/share/nginx/html/*
+
+COPY --from=build /app/dist/angular-conduit /usr/share/nginx/html
 
 EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
