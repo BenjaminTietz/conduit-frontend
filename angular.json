@@ -25,11 +25,6 @@
                 "glob": "_redirects",
                 "input": "src",
                 "output": "/"
-              },
-              {
-                "glob": "config.*.json",
-                "input": "src/config",
-                "output": "/"
               }
             ],
             "styles": ["src/styles.css"],
@@ -37,12 +32,6 @@
           },
           "configurations": {
             "production": {
-              "fileReplacements": [
-                {
-                  "replace": "src/config/config.development.json",
-                  "with": "src/config/config.production.json"
-                }
-              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -66,9 +55,8 @@
               "namedChunks": true
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "production"
         },
-
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
@@ -81,14 +69,12 @@
           },
           "defaultConfiguration": "development"
         },
-
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "buildTarget": "angular-conduit:build"
           }
         },
-
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
