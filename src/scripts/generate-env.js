@@ -1,5 +1,4 @@
 const fs = require("fs");
-const path = require("path");
 
 const apiUrl = process.env.BACKEND_API_URL;
 
@@ -8,21 +7,15 @@ if (!apiUrl) {
   process.exit(1);
 }
 
-
-const targetDir = path.join(__dirname, "../environments");
-const targetFile = path.join(targetDir, "environment.prod.ts");
-
-
-fs.mkdirSync(targetDir, { recursive: true });
+const targetFile = "src/environments/environment.ts";
 
 const content = `export const environment = {
-  production: true,
   apiUrl: "${apiUrl}",
 };
 `;
 
 fs.writeFileSync(targetFile, content, { encoding: "utf8" });
 
-console.log("environment.prod.ts generated with apiUrl:", apiUrl);
+console.log("environment.ts generated with apiUrl:", apiUrl);
 
 
