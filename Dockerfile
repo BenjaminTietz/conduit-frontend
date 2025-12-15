@@ -9,7 +9,7 @@ COPY . .
 ARG BACKEND_API_URL
 ENV BACKEND_API_URL=${BACKEND_API_URL}
 
-RUN node scripts/generate-env.js
+RUN node src/scripts/generate-env.js
 RUN npm run build --prod
 
 
